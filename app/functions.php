@@ -20,20 +20,20 @@ if (!function_exists('DBC')) {
 if (!function_exists('beginTransaction')) {
     function beginTransaction($connection_name)
     {
-        Db::getInstance($connection_name)->getPdo()->beginTransaction();
+        Db::getInstance($connection_name)->pdo->beginTransaction();
     }
 }
 
 if (!function_exists('commit')) {
     function commit($connection_name)
     {
-        Db::getInstance($connection_name)->getPdo()->commit();
+        Db::getInstance($connection_name)->pdo->commit();
     }
 }
 
 if (!function_exists('rollBack')) {
     function rollBack($connection_name)
     {
-        Db::getInstance($connection_name)->getPdo()->rollBack();
+        Db::getInstance($connection_name)->pdo->rollBack();
     }
 }

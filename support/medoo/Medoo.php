@@ -9,9 +9,12 @@ class Medoo
 {
     private $medoo;
 
+    public $pdo;
+
     public function __construct($options)
     {
         $this->medoo = new \Medoo\Medoo($options);
+        $this->pdo = $this->medoo->pdo;
     }
 
     /**
@@ -162,13 +165,5 @@ class Medoo
     public function query(string $statement, array $map = []): ?PDOStatement
     {
         return $this->medoo->query($statement, $map);
-    }
-
-    /**
-     * @return PDO
-     */
-    public function getPdo()
-    {
-        return $this->medoo->pdo;
     }
 }
