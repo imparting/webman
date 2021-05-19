@@ -16,3 +16,24 @@ if (!function_exists('DBC')) {
         return Db::getInstance($connection_name);
     }
 }
+
+if (!function_exists('beginTransaction')) {
+    function beginTransaction($connection_name)
+    {
+        Db::getInstance($connection_name)->getPdo()->beginTransaction();
+    }
+}
+
+if (!function_exists('commit')) {
+    function commit($connection_name)
+    {
+        Db::getInstance($connection_name)->getPdo()->commit();
+    }
+}
+
+if (!function_exists('rollBack')) {
+    function rollBack($connection_name)
+    {
+        Db::getInstance($connection_name)->getPdo()->rollBack();
+    }
+}

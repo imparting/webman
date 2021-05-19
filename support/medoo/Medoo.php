@@ -2,6 +2,7 @@
 
 namespace support\medoo;
 
+use PDO;
 use PDOStatement;
 
 class Medoo
@@ -161,5 +162,13 @@ class Medoo
     public function query(string $statement, array $map = []): ?PDOStatement
     {
         return $this->medoo->query($statement, $map);
+    }
+
+    /**
+     * @return PDO
+     */
+    public function getPdo()
+    {
+        return $this->medoo->pdo;
     }
 }
