@@ -83,7 +83,7 @@ class FileMonitor
                     $last_mtime = $file->getMTime();
                     continue;
                 }
-                echo $file . " update and reload\n";
+                echo "[Time " . date('H:i:s') . "] : " . $file . " update and reload\n";
                 // send SIGUSR1 signal to master process for reload
                 posix_kill(posix_getppid(), SIGUSR1);
                 $last_mtime = $file->getMTime();

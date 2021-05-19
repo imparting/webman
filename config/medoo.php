@@ -13,11 +13,17 @@
  */
 
 return [
-    support\bootstrap\Container::class,
-    support\bootstrap\Session::class,
-    support\bootstrap\db\Laravel::class,
-    support\bootstrap\Redis::class,
-    support\bootstrap\Log::class,
-    support\bootstrap\Translation::class,
-    support\bootstrap\db\Medoo::class,
+    'default' => [
+        // required
+        'type' => 'mysql',
+        'host' => env('DB_HOST', '127.0.0.1'),
+        'port' => env('DB_PORT', 3306),
+        'username' => env('DB_USERNAME', 'root'),
+        'password' => env('DB_PASSWORD', ''),
+        'database_name' => env('DB_DATABASE'),
+        // [optional]
+        'charset' => 'utf8',
+        //'charset' => 'utf8mb4',
+        'prefix' => ''
+    ],
 ];

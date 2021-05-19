@@ -14,28 +14,36 @@
 
 namespace support\bootstrap\db;
 
+use support\medoo\Db;
 use Webman\Bootstrap;
-use support\Db;
+use Workerman\Timer;
+use Workerman\Worker;
 
 /**
- * mysql心跳。定时发送一个查询，防止mysql连接长时间不活跃被mysql服务端断开。
- * 默认不开启，如需开启请到 config/bootstrap.php中添加 support\bootstrap\db\Heartbeat::class,
- * @package support\bootstrap\db
+ * Class Session
+ * @package support
  */
-class Heartbeat implements Bootstrap
+class Medoo implements Bootstrap
 {
     /**
-     * @param \Workerman\Worker $worker
-     *
+     * @param Worker $worker
      * @return void
      */
     public static function start($worker)
     {
-        if (!class_exists('\Illuminate\Database\Capsule\Manager')) {
+        if (!class_exists("\Medoo\Medoo")) {
             return;
         }
-        \Workerman\Timer::add(55, function () {
-            Db::select('select 1 limit 1');
+        Timer::add(10, function () {
+            list($dbs, $dbs_time) = Db::allInstances();
+            /**
+             * @var \Medoo\Medoo $db
+             */
+            foreach ($dbs as $connection_name => $db) {
+                if (isset($dbs_time[$connection_name]) && time() > $dbs_time[$connection_name] + 45) {
+                    $db->query('select 1 limit 1');
+                }
+            }
         });
     }
 }
