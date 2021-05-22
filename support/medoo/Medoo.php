@@ -2,9 +2,42 @@
 
 namespace support\medoo;
 
-use PDO;
+use Medoo\Raw;
 use PDOStatement;
 
+/**
+ * Class Medoo
+ * @method // PDOStatement insert(string $table, array $values, string $primary_key = null) Insert one or more records into the table.
+ * @method // get(string $table, $join = null, $columns = null, $where = null) Get only one record from the table.
+ * @method // array select(string $table, $join, $columns = null, $where = null) Select data from the table.
+ * @method // PDOStatement delete(string $table, array $where) Delete data from the table.
+ * @method // PDOStatement update(string $table, $data, $where = null) Modify data from the table.
+ * @method // PDOStatement replace(string $table, array $columns, $where = null) Replace old data with a new one.
+ * @method // int count(string $table, $join = null, $column = null, $where = null) Count the number of rows from the table.
+ * @method // array rand(string $table, $join = null, $columns = null, $where = null) Randomly fetch data from the table.
+ * @method // string max(string $table, $join, $column = null, $where = null) Get the maximum value of the column.
+ * @method // string min(string $table, $join, $column = null, $where = null) Get the minimum value of the column.
+ * @method // string sum(string $table, $join, $column = null, $where = null) Calculate the total value of the column.
+ * @method // string avg(string $table, $join, $column = null, $where = null) Calculate the average value of the column.
+ * @method string id(string $name = null) Return the ID for the last inserted row.
+ * @method action(callable $actions) Start a transaction.
+ * @method bool has(string $table, $join, $where = null) Determine whether the target data existed from the table.
+ * @method PDOStatement drop(string $table) Drop a table.
+ * @method PDOStatement create(string $table, $columns, $options = null) Create a table.
+ * @method string columnQuote(string $column) Quote column name for use in a query.
+ * @method string tableQuote(string $table) Quote table name for use in a query.
+ * @method string quote(string $string) Quote a string for use in a query.
+ * @method Raw raw(string $string, array $map = []) Build a raw object.
+ * @method PDOStatement exec(string $statement, array $map = [], callable $callback = null) Execute the raw statement.
+ * @method // PDOStatement query(string $statement, array $map = []) Execute customized raw statement.
+ * @method self debug() Enable debug mode and output readable statement string.
+ * @method beginDebug() Enable debug logging mode.
+ * @method array debugLog() Disable debug logging and return all readable statements.
+ * @method string last() Return the last performed statement.
+ * @method array log() Return all executed statements.
+ * @method array info() Get information about the database connection.
+ * @package support\medoo
+ */
 class Medoo
 {
     private $medoo;
@@ -157,13 +190,13 @@ class Medoo
         return $this->medoo->sum($table, $join, $column, $where);
     }
 
-    public function id(string $name = null): ?string
-    {
-        return $this->medoo->id($name);
-    }
-
     public function query(string $statement, array $map = []): ?PDOStatement
     {
         return $this->medoo->query($statement, $map);
+    }
+
+    public function __call($name, $args)
+    {
+        return $this->medoo->$name(...$args);
     }
 }
